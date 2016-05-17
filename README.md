@@ -8,5 +8,7 @@ gjwt validates Google JWT tokens using the list of public keys published. This l
     
 ## Usage
 	
-    token, err := gjwt.Validate(tokenHere)
-    clientid, ok := token.Claims["aud"].(string)
+    if token, err := gjwt.Validate(tokenHere); err != nil {
+    	clientid, ok := token.Claims["aud"].(string)
+    }
+    
