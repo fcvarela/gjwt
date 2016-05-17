@@ -18,7 +18,7 @@ var (
 
 func TestValidate(t *testing.T) {
 	for _, f := range fixtures {
-		err := Validate(f.token)
+		_, err := Validate(f.token)
 
 		// good token, expected bad one
 		if err == nil && !f.valid {

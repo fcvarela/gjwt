@@ -146,8 +146,8 @@ func Validate(tokenStr string) (*jwt.Token, error) {
 	})
 
 	if err != nil || !token.Valid {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return token, nil
 }
