@@ -1,3 +1,4 @@
+//Package gjwt validates Google JWT tokens using the list of public keys published. This list is kept up-to-date automatically.
 package gjwt
 
 import (
@@ -87,13 +88,13 @@ func updateKeys() (time.Duration, error) {
 	}
 
 	var expiresIn = maxAge - age
-	keysJson, err := ioutil.ReadAll(res.Body)
+	keysJSON, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return 0, err
 	}
 
 	var certKeys map[string]string
-	if err := json.Unmarshal(keysJson, &certKeys); err != nil {
+	if err := json.Unmarshal(keysJSON, &certKeys); err != nil {
 		return 0, err
 	}
 
@@ -128,7 +129,8 @@ func updateKeys() (time.Duration, error) {
 	return expiresIn, nil
 }
 
-func Validate(tokenStr string) error {
+// Validate validates a JWT token against Google's public keys. It returns a *jwt.Token if successful. The caller of this function _must_ validate that the correct "aud" claim is set (see confused deputy problem).
+func Validate(tokenStr string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
