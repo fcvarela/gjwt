@@ -25,8 +25,7 @@ type keychain struct {
 
 var (
 	mainKeychain    = &keychain{sync.Mutex{}, make(map[string][]byte)}
-	flagSet         = flag.NewFlagSet("gjwt", flag.PanicOnError)
-	certificatesURL = flagSet.String("certificates_url", "https://www.googleapis.com/oauth2/v1/certs", "Google signing certificates URL")
+	certificatesURL = flag.String("certificates_url", "https://www.googleapis.com/oauth2/v1/certs", "Google signing certificates URL")
 )
 
 func init() {
